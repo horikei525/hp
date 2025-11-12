@@ -13,17 +13,33 @@
     return `${y}.${m}.${d}`;
   };
 
-  const escapeHtml = (value) =>
-    value
+  const escapeHtml = (value = '') =>
+    String(value)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
 
-  const toHtml = (text) =>
-    text
+  const toHtml = (text = '') =>
+    String(text)
       .split('\n')
       .map((line) => `<p>${escapeHtml(line)}</p>`)
       .join('');
+
+  const getExcerpt = (item) => {
+    if (item.excerpt && item.excerpt.trim()) {
+      return item.excerpt.trim();
+    }
+    if (item.content) {
+      const firstLine = String(item.content)
+        .split('\n')
+        .map((line) => line.trim())
+        .find((line) => line.length);
+      if (firstLine) return firstLine;
+    }
+    return '';
+  };
 
   async function fetchNews() {
     const response = await fetch(NEWS_PATH, { cache: 'no-store' });
@@ -45,12 +61,14 @@
 
     container.innerHTML = '';
     latest.forEach((item) => {
+      const title = escapeHtml(item.title ?? '');
+      const excerpt = escapeHtml(getExcerpt(item));
       const article = document.createElement('article');
       article.className = 'news-card';
       article.innerHTML = `
         <time datetime="${item.date}" class="news-card-date">${formatDate(item.date)}</time>
-        <h3 class="news-card-title">${item.title}</h3>
-        <p class="news-card-excerpt">${item.excerpt}</p>
+        <h3 class="news-card-title">${title}</h3>
+        <p class="news-card-excerpt">${excerpt}</p>
         <a class="news-card-link" href="news.html?id=${encodeURIComponent(item.id)}">詳しく見る</a>
       `;
       container.appendChild(article);
@@ -65,13 +83,23 @@
 
     const renderList = () => {
       listEl.innerHTML = '';
+      if (!items.length) {
+        listEl.innerHTML = '<p class="news-empty">現在表示できるお知らせはありません。</p>';
+        detailEl.hidden = true;
+        latestEl.innerHTML = '';
+        return;
+      }
+
       items.forEach((item) => {
+        const title = escapeHtml(item.title ?? '');
+        const excerpt = escapeHtml(getExcerpt(item));
         const article = document.createElement('article');
         article.className = 'news-card';
+        article.dataset.newsId = item.id;
         article.innerHTML = `
           <time datetime="${item.date}" class="news-card-date">${formatDate(item.date)}</time>
-          <h2 class="news-card-title">${item.title}</h2>
-          <p class="news-card-excerpt">${item.excerpt}</p>
+          <h2 class="news-card-title">${title}</h2>
+          <p class="news-card-excerpt">${excerpt}</p>
           <a class="news-card-link" href="?id=${encodeURIComponent(item.id)}" data-news-id="${item.id}">詳しく見る</a>
         `;
         listEl.appendChild(article);
@@ -80,15 +108,33 @@
 
     const renderLatest = () => {
       latestEl.innerHTML = '';
+      if (!items.length) {
+        const empty = document.createElement('li');
+        empty.textContent = '最新情報はまだありません。';
+        latestEl.appendChild(empty);
+        return;
+      }
+
       items.slice(0, 5).forEach((item) => {
+        const title = escapeHtml(item.title ?? '');
         const li = document.createElement('li');
+        li.dataset.newsId = item.id;
         li.innerHTML = `
           <a href="?id=${encodeURIComponent(item.id)}" data-news-id="${item.id}">
             <time datetime="${item.date}">${formatDate(item.date)}</time>
-            <span>${item.title}</span>
+            <span>${title}</span>
           </a>
         `;
         latestEl.appendChild(li);
+      });
+    };
+
+    const setActiveItem = (id) => {
+      listEl.querySelectorAll('.news-card').forEach((article) => {
+        article.classList.toggle('is-active', article.dataset.newsId === id);
+      });
+      latestEl.querySelectorAll('li').forEach((li) => {
+        li.classList.toggle('is-active', li.dataset.newsId === id);
       });
     };
 
@@ -96,6 +142,7 @@
       listEl.hidden = false;
       detailEl.hidden = true;
       detailEl.dataset.currentId = '';
+      setActiveItem('');
       if (!skipHistory) {
         const url = new URL(window.location.href);
         url.searchParams.delete('id');
@@ -108,15 +155,16 @@
       const item = items.find((entry) => entry.id === id);
       if (!item) {
         showList(skipHistory);
-        return;
+        return false;
       }
 
       listEl.hidden = true;
       detailEl.hidden = false;
       detailEl.dataset.currentId = item.id;
       detailEl.querySelector('[data-field="date"]').textContent = formatDate(item.date);
-      detailEl.querySelector('[data-field="title"]').textContent = item.title;
+      detailEl.querySelector('[data-field="title"]').textContent = item.title ?? '';
       detailEl.querySelector('[data-field="content"]').innerHTML = toHtml(item.content);
+      setActiveItem(item.id);
 
       if (!skipHistory) {
         const url = new URL(window.location.href);
@@ -125,6 +173,7 @@
       }
       detailEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       detailEl.focus?.({ preventScroll: true });
+      return true;
     };
 
     listEl.addEventListener('click', (event) => {
@@ -159,8 +208,7 @@
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    if (id) {
-      showDetail(id, true);
+    if (id && showDetail(id, true)) {
       history.replaceState({ view: 'detail', id }, '', window.location.href);
     } else {
       showList(true);
