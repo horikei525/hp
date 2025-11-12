@@ -1,32 +1,9 @@
 <?php
-$newsItems = [
-  [
-    'date' => '2025-10-01',
-    'title' => '新モデルハウス「AKARI BASE」内覧会を開催します。',
-    'excerpt' => '完全予約制で先行公開。最新のZEH仕様や収納プランをご体感いただけます。',
-    'url' => '#'
-  ],
-  [
-    'date' => '2025-09-15',
-    'title' => 'ホームページをリニューアルしました。',
-    'excerpt' => 'スマートフォンからも見やすく、施工事例やイベント情報を随時更新していきます。'
-  ],
-  [
-    'date' => '2025-08-20',
-    'title' => '夏季休業期間のお知らせ。',
-    'excerpt' => '2025年8月11日(月)〜15日(金)は休業とさせていただきます。'
-  ],
-];
 
-function formatNewsDate(string $date): string
-{
-    try {
-        $dateTime = new DateTime($date);
-        return $dateTime->format('Y.m.d');
-    } catch (Exception $e) {
-        return htmlspecialchars($date, ENT_QUOTES, 'UTF-8');
-    }
-}
+require_once __DIR__ . '/includes/news.php';
+
+$newsItems = loadNewsItems();
+$latestNews = array_slice($newsItems, 0, 3);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -50,6 +27,7 @@ function formatNewsDate(string $date): string
           <li><a href="#case">施工事例</a></li>
           <li><a href="#company">会社概要</a></li>
           <li><a href="#news">お知らせ</a></li>
+          <li><a href="news.php">ニュース一覧</a></li>
         </ul>
       </nav>
       <a href="#contact" class="contact-btn">お問い合わせ</a>
@@ -181,22 +159,26 @@ function formatNewsDate(string $date): string
 
     <section id="news" class="section section-muted" aria-labelledby="news-heading">
       <div class="section-inner">
-        <h2 id="news-heading">お知らせ</h2>
+        <div class="section-header">
+          <h2 id="news-heading">お知らせ</h2>
+          <a class="link-more" href="news.php">一覧を見る</a>
+        </div>
         <ul class="news-list">
-          <?php foreach ($newsItems as $item): ?>
+          <?php foreach ($latestNews as $item): ?>
             <li>
-              <span class="date"><?= formatNewsDate($item['date']) ?></span>
+              <span class="date"><?= formatNewsDate($item['date'] ?? '') ?></span>
               <div class="news-content">
-                <strong><?= htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8') ?></strong>
+                <strong><?= htmlspecialchars($item['title'] ?? '', ENT_QUOTES, 'UTF-8') ?></strong>
                 <?php if (!empty($item['excerpt'])): ?>
                   <p><?= htmlspecialchars($item['excerpt'], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php endif; ?>
-                <?php if (!empty($item['url'])): ?>
-                  <a class="news-link" href="<?= htmlspecialchars($item['url'], ENT_QUOTES, 'UTF-8') ?>">詳しく見る</a>
-                <?php endif; ?>
+                <a class="news-link" href="news.php?id=<?= urlencode($item['id'] ?? '') ?>">詳しく見る</a>
               </div>
             </li>
           <?php endforeach; ?>
+          <?php if (empty($latestNews)): ?>
+            <li class="news-empty">現在お知らせはありません。</li>
+          <?php endif; ?>
         </ul>
         <a class="news-more" href="mailto:info@akari-housing.jp">プレスリリースのご相談はこちら</a>
       </div>
