@@ -1,36 +1,5 @@
-<?php
-$newsItems = [
-  [
-    'date' => '2025-10-01',
-    'title' => '新モデルハウス「AKARI BASE」内覧会を開催します。',
-    'excerpt' => '完全予約制で先行公開。最新のZEH仕様や収納プランをご体感いただけます。',
-    'url' => '#'
-  ],
-  [
-    'date' => '2025-09-15',
-    'title' => 'ホームページをリニューアルしました。',
-    'excerpt' => 'スマートフォンからも見やすく、施工事例やイベント情報を随時更新していきます。'
-  ],
-  [
-    'date' => '2025-08-20',
-    'title' => '夏季休業期間のお知らせ。',
-    'excerpt' => '2025年8月11日(月)〜15日(金)は休業とさせていただきます。'
-  ],
-];
-
-function formatNewsDate(string $date): string
-{
-    try {
-        $dateTime = new DateTime($date);
-        return $dateTime->format('Y.m.d');
-    } catch (Exception $e) {
-        return htmlspecialchars($date, ENT_QUOTES, 'UTF-8');
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,8 +7,7 @@ function formatNewsDate(string $date): string
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-
-<body>
+<body data-page="home">
   <header class="header">
     <div class="header-inner">
       <div class="logo" aria-label="株式会社あかりハウジング">株式会社あかりハウジング</div>
@@ -50,6 +18,7 @@ function formatNewsDate(string $date): string
           <li><a href="#case">施工事例</a></li>
           <li><a href="#company">会社概要</a></li>
           <li><a href="#news">お知らせ</a></li>
+          <li><a href="news.html">ニュース一覧</a></li>
         </ul>
       </nav>
       <a href="#contact" class="contact-btn">お問い合わせ</a>
@@ -140,99 +109,117 @@ function formatNewsDate(string $date): string
             <div class="case-image case-image-2" aria-hidden="true"></div>
             <div class="case-body">
               <h3>光が巡るリノベーション</h3>
-              <p>暗かった室内をスケルトン解体で刷新。対面キッチンとワークスペースを新設し、共働き家族にフィットした住まいに。</p>
+              <p>吹き抜けとトップライトで採光を確保。回遊動線と収納計画で暮らしやすさを高めました。</p>
+            </div>
+          </article>
+          <article class="case-card">
+            <div class="case-image case-image-3" aria-hidden="true"></div>
+            <div class="case-body">
+              <h3>庭とつながる平屋</h3>
+              <p>ウッドデッキと庭が一体となる設計で、家族の時間がゆったり流れる住まいを実現しました。</p>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="company" class="section" aria-labelledby="company-heading">
-      <div class="section-inner company">
-        <div>
-          <h2 id="company-heading">会社概要</h2>
-          <p class="section-lead">「住まいに、あかりを。」をモットーに、地域の暮らしを支える住宅事業を展開しています。</p>
-          <p>横浜市を拠点に、神奈川県全域で新築戸建てや中古住宅のリノベーションを手掛けています。豊富な実績と確かな技術で、お客様一人ひとりに合わせた住まいづくりをサポートします。</p>
-        </div>
-        <dl class="company-info">
-          <div>
-            <dt>会社名</dt>
-            <dd>株式会社あかりハウジング</dd>
-          </div>
-          <div>
-            <dt>所在地</dt>
-            <dd>〒231-0001 神奈川県横浜市中区〇〇 1-2-3</dd>
-          </div>
-          <div>
-            <dt>設立</dt>
-            <dd>2012年4月</dd>
-          </div>
-          <div>
-            <dt>事業内容</dt>
-            <dd>新築戸建て・リノベーション設計施工・不動産仲介</dd>
-          </div>
-          <div>
-            <dt>登録</dt>
-            <dd>建設業許可 神奈川県知事許可（般-4）第xxxx号</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
     <section id="news" class="section section-muted" aria-labelledby="news-heading">
       <div class="section-inner">
-        <h2 id="news-heading">お知らせ</h2>
-        <ul class="news-list">
-          <?php foreach ($newsItems as $item): ?>
-            <li>
-              <span class="date"><?= formatNewsDate($item['date']) ?></span>
-              <div class="news-content">
-                <strong><?= htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8') ?></strong>
-                <?php if (!empty($item['excerpt'])): ?>
-                  <p><?= htmlspecialchars($item['excerpt'], ENT_QUOTES, 'UTF-8') ?></p>
-                <?php endif; ?>
-                <?php if (!empty($item['url'])): ?>
-                  <a class="news-link" href="<?= htmlspecialchars($item['url'], ENT_QUOTES, 'UTF-8') ?>">詳しく見る</a>
-                <?php endif; ?>
-              </div>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-        <a class="news-more" href="mailto:info@akari-housing.jp">プレスリリースのご相談はこちら</a>
+        <div class="section-heading">
+          <h2 id="news-heading">お知らせ</h2>
+          <a class="section-link" href="news.html">すべて見る</a>
+        </div>
+        <div id="latest-news" class="news-list" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="contact" class="section contact" aria-labelledby="contact-heading">
-      <div class="section-inner contact-inner">
+    <section id="company" class="section" aria-labelledby="company-heading">
+      <div class="section-inner company-grid">
+        <div>
+          <h2 id="company-heading">会社概要</h2>
+          <dl class="company-info">
+            <div>
+              <dt>会社名</dt>
+              <dd>株式会社あかりハウジング</dd>
+            </div>
+            <div>
+              <dt>所在地</dt>
+              <dd>神奈川県横浜市中区○○町1-1-1</dd>
+            </div>
+            <div>
+              <dt>事業内容</dt>
+              <dd>注文住宅設計・施工、リノベーション、アフターサポート</dd>
+            </div>
+            <div>
+              <dt>電話番号</dt>
+              <dd>045-000-0000（受付 9:00〜18:00）</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="company-map">
+          <iframe title="アクセスマップ" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.938294108868!2d139.64010937611817!3d35.44499154387894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185c0dfea45c4f%3A0xa2e8b54915a43b44!2z5qiq5rWc5Yy65p2x5Lqs6YO95riv5Yy66KW_5Y-W5aSn55S677yR77yX!5e0!3m2!1sja!2sjp!4v1700000000000!5m2!1sja!2sjp" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-accent" aria-labelledby="contact-heading">
+      <div class="section-inner contact-grid">
         <div>
           <h2 id="contact-heading">お問い合わせ</h2>
-          <p class="section-lead">住まいづくりのご相談・資料請求・見学予約など、お気軽にお問い合わせください。</p>
-          <a href="mailto:info@akari-housing.jp" class="btn primary">メールで問い合わせる</a>
+          <p class="section-lead">家づくりやリノベーションのご相談、お見積もりはお気軽にどうぞ。</p>
+          <ul class="contact-points">
+            <li>
+              <span class="contact-label">お電話</span>
+              <span class="contact-value">045-000-0000（受付 9:00〜18:00）</span>
+            </li>
+            <li>
+              <span class="contact-label">メール</span>
+              <span class="contact-value">info@akari-housing.jp</span>
+            </li>
+            <li>
+              <span class="contact-label">来場予約</span>
+              <span class="contact-value">モデルハウスの見学は完全予約制です。ご希望日時をご連絡ください。</span>
+            </li>
+          </ul>
         </div>
-        <div class="contact-info">
-          <dl>
-            <dt>電話</dt>
-            <dd><a href="tel:0450000000">045-000-0000</a>（9:00〜18:00 水曜定休）</dd>
-          </dl>
-          <dl>
-            <dt>住所</dt>
-            <dd>〒231-0001 神奈川県横浜市中区〇〇 1-2-3</dd>
-          </dl>
-          <dl>
-            <dt>対応エリア</dt>
-            <dd>横浜市・川崎市・湘南エリア・県央エリア</dd>
-          </dl>
-        </div>
+        <form class="contact-form" aria-label="お問い合わせフォーム">
+          <div class="form-group">
+            <label for="name">お名前</label>
+            <input type="text" id="name" name="name" placeholder="例）山田 太郎">
+          </div>
+          <div class="form-group">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" placeholder="例）sample@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">電話番号</label>
+            <input type="tel" id="phone" name="phone" placeholder="例）090-0000-0000">
+          </div>
+          <div class="form-group">
+            <label for="message">ご相談内容</label>
+            <textarea id="message" name="message" rows="4" placeholder="ご相談内容を自由にご記入ください"></textarea>
+          </div>
+          <button type="button" class="btn primary">内容を確認する</button>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="footer-inner">
-      <small>© 2025 株式会社あかりハウジング</small>
-      <a href="tel:0450000000">TEL 045-000-0000</a>
+      <div>
+        <div class="logo" aria-label="株式会社あかりハウジング">株式会社あかりハウジング</div>
+        <p class="footer-address">〒231-0000 神奈川県横浜市中区○○町1-1-1</p>
+      </div>
+      <div class="footer-nav">
+        <a href="news.html">お知らせ</a>
+        <a href="#company">会社概要</a>
+        <a href="#contact">お問い合わせ</a>
+      </div>
+      <p class="footer-copy">© 2025 Akari Housing Co., Ltd.</p>
     </div>
   </footer>
-</body>
 
+  <script src="scripts/news.js" defer></script>
+</body>
 </html>

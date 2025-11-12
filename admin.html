@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お知らせ管理｜株式会社あかりハウジング</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="admin">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo" aria-label="株式会社あかりハウジング">株式会社あかりハウジング</div>
+      <nav class="nav" aria-label="メインナビゲーション">
+        <ul>
+          <li><a href="index.html#about">あかりの強み</a></li>
+          <li><a href="index.html#service">事業内容</a></li>
+          <li><a href="index.html#case">施工事例</a></li>
+          <li><a href="index.html#company">会社概要</a></li>
+          <li><a href="news.html">お知らせ</a></li>
+        </ul>
+      </nav>
+      <a href="index.html#contact" class="contact-btn">お問い合わせ</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="admin-hero" aria-labelledby="admin-heading">
+      <div class="section-inner">
+        <p class="section-tag">ADMIN</p>
+        <h1 id="admin-heading">お知らせ管理</h1>
+        <p class="section-lead">Google Apps Script を経由して GitHub 上の JSON を編集・保存します。アクセスキーを入力して編集を開始してください。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="お知らせ編集フォーム">
+      <div class="section-inner admin-layout">
+        <div class="admin-panel">
+          <form id="access-form" class="access-form" aria-label="アクセスキー入力フォーム">
+            <h2>アクセスキーを入力</h2>
+            <p>Apps Script 側に設定したキーと一致すると編集が有効になります。</p>
+            <div class="form-group">
+              <label for="access-key">アクセスキー</label>
+              <input type="password" id="access-key" name="access-key" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn primary">認証する</button>
+            <p class="form-note" id="access-status" role="status"></p>
+          </form>
+
+          <div id="editor" class="editor" hidden>
+            <div class="editor-toolbar">
+              <h2>お知らせ一覧</h2>
+              <div class="editor-actions">
+                <button type="button" class="btn secondary" data-action="refresh">再読み込み</button>
+                <button type="button" class="btn primary" data-action="create">新規追加</button>
+              </div>
+            </div>
+            <p class="form-note" id="editor-status" role="status"></p>
+            <div id="news-editor-list" class="editor-list" aria-live="polite"></div>
+
+            <form id="news-form" class="editor-form" aria-label="お知らせ編集フォーム" hidden>
+              <h3 id="form-heading">お知らせを編集</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="news-id">ID <span class="form-note">（半角英数字・ハイフン）</span></label>
+                  <input type="text" id="news-id" name="id" required>
+                </div>
+                <div class="form-group">
+                  <label for="news-date">公開日</label>
+                  <input type="date" id="news-date" name="date" required>
+                </div>
+                <div class="form-group">
+                  <label for="news-title">タイトル</label>
+                  <input type="text" id="news-title" name="title" required>
+                </div>
+                <div class="form-group">
+                  <label for="news-excerpt">概要</label>
+                  <textarea id="news-excerpt" name="excerpt" rows="2" required></textarea>
+                </div>
+                <div class="form-group form-full">
+                  <label for="news-content">本文</label>
+                  <textarea id="news-content" name="content" rows="6" required></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn secondary" data-action="cancel">キャンセル</button>
+                <button type="submit" class="btn primary">保存する</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <aside class="admin-sidebar" aria-label="セットアップ手順">
+          <h2 class="sidebar-heading">セットアップメモ</h2>
+          <ol class="sidebar-steps">
+            <li>Google Apps Script で GitHub API を呼び出す Web アプリを作成します。</li>
+            <li>スクリプト内に <code>ACCESS_KEY</code> を保存し、ニュース JSON を取得・更新するエンドポイント（<code>fetchNews</code> / <code>saveNews</code> など）を用意します。</li>
+            <li>「デプロイ」→「新しいデプロイ」で Web アプリを公開し、URL を <code>config/appsscript.js</code> の <code>APP_SCRIPT_URL</code> に設定します。</li>
+            <li>このページでアクセスキーを入力して認証後、JSON を読み込み・編集・保存できます。</li>
+          </ol>
+          <p class="sidebar-note">PHP 版に移行する際は、フォーム構造とデータスキーマをそのまま利用できます。</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="logo" aria-label="株式会社あかりハウジング">株式会社あかりハウジング</div>
+        <p class="footer-address">〒231-0000 神奈川県横浜市中区○○町1-1-1</p>
+      </div>
+      <div class="footer-nav">
+        <a href="index.html#company">会社概要</a>
+        <a href="index.html#contact">お問い合わせ</a>
+        <a href="news.html">お知らせ</a>
+      </div>
+      <p class="footer-copy">© 2025 Akari Housing Co., Ltd.</p>
+    </div>
+  </footer>
+
+  <script src="config/appsscript.js" defer></script>
+  <script src="scripts/admin.js" defer></script>
+</body>
+</html>
