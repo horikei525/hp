@@ -164,20 +164,20 @@ img {
   position: relative;
   padding: clamp(6rem, 14vw, 9rem) 1.8rem 4rem;
   background: url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80') center / cover;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(14, 7, 3, 0.85), rgba(255, 138, 60, 0.45));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero-inner {
   position: relative;
   max-width: 720px;
-  color: #fff;
-  text-shadow: 0 10px 25px rgba(15, 5, 1, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 32px;
+  padding: clamp(2rem, 6vw, 3.5rem);
+  box-shadow: 0 20px 60px rgba(42, 23, 14, 0.22);
+  color: var(--color-text);
+  backdrop-filter: blur(6px);
 }
 
 .eyebrow {
@@ -185,7 +185,7 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.4em;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-orange-dark);
 }
 
 .hero h2 {
@@ -193,9 +193,9 @@ img {
   font-size: clamp(2.4rem, 6vw, 3.8rem);
 }
 
-.lead {
+.hero .lead {
   margin: 0 0 2rem;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-muted);
 }
 
 .hero-actions {
@@ -226,12 +226,12 @@ img {
 }
 
 .btn.ghost {
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: #fff;
+  border: 1px solid rgba(240, 90, 0, 0.3);
+  color: var(--color-orange-dark);
 }
 
 .btn.ghost:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Sections */
