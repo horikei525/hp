@@ -10,54 +10,80 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="intro" id="intro">
+    <div class="intro-scrim"></div>
+    <div class="intro-slider" aria-hidden="true">
+      <div class="intro-slide" style="background-image:url('https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=2000&q=80');"></div>
+      <div class="intro-slide" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=2000&q=80');"></div>
+      <div class="intro-slide" style="background-image:url('https://images.unsplash.com/photo-1489171078254-c3365d6e359f?auto=format&fit=crop&w=2000&q=80');"></div>
+    </div>
+    <div class="intro-content">
+      <p class="intro-label">AKARI HOUSING</p>
+      <h1>光と暮らす、新しい住まい。</h1>
+      <p>オレンジの温もりを感じる空間づくりで、毎日の暮らしを明るく照らします。</p>
+    </div>
+    <button class="intro-skip" id="skip-intro" type="button">Skip</button>
+  </div>
+
   <header class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-tag">暮らしに寄り添う家づくり</p>
-      <h1>株式会社あかりハウジング</h1>
-      <p class="hero-lead">横浜を拠点に、新築・リノベーション・リフォームまでワンストップでサポートします。</p>
-      <a class="hero-button" href="#contact">お問い合わせへ</a>
+    <div class="hero-inner">
+      <p class="eyebrow">暮らしをデザインする建築会社</p>
+      <h2>株式会社あかりハウジング</h2>
+      <p class="lead">自然光と素材感を活かした空間設計で、心地よい住まいをオーダーメイドで提供します。</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#contact">お問い合わせ</a>
+        <a class="btn ghost" href="#company">会社情報</a>
+      </div>
     </div>
   </header>
 
   <main>
-    <section id="about" class="section">
+    <section id="services" class="section section-accent">
       <div class="section-inner">
-        <div class="about-text">
-          <h2>あかりハウジングについて</h2>
-          <p>地域に根ざした建築会社として、土地探しから施工、アフターケアまで一貫して対応しています。お客様一人ひとりのライフスタイルや価値観に寄り添い、長く安心して暮らせる住まいをご提案します。</p>
-          <p>自然素材を活かしたやわらかなデザインと、最新の住宅性能をバランスよく取り入れることで、快適さと美しさが調和する住空間を実現します。</p>
+        <header>
+          <p class="eyebrow">Services</p>
+          <h3>ワンストップで叶える３つのサポート</h3>
+          <p>土地探しから設計・施工、アフターサポートまで、暮らしのプロが寄り添います。</p>
+        </header>
+        <div class="cards">
+          <article class="card">
+            <h4>新築注文住宅</h4>
+            <p>光や風の取り込み方を計算したプランで、ご家族に寄り添う住まいをご提案します。</p>
+          </article>
+          <article class="card">
+            <h4>リノベーション</h4>
+            <p>既存の魅力を活かしつつ、暮らしやすい動線と質感を兼ね備えた空間へアップデート。</p>
+          </article>
+          <article class="card">
+            <h4>リフォーム＆メンテ</h4>
+            <p>水回りや外装の改修、定期点検まで。永く安心できる住まいをサポートします。</p>
+          </article>
         </div>
-        <figure class="about-visual">
-          <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80" alt="開放的なリビングの写真">
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-inner about">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1505692794400-821c86e0c314?auto=format&fit=crop&w=1200&q=80" alt="木目を基調としたあたたかなリビング">
         </figure>
-      </div>
-    </section>
-
-    <section id="services" class="section section-muted">
-      <div class="section-inner services">
-        <div class="service-card">
-          <h3>新築注文住宅</h3>
-          <p>土地条件とご希望を丁寧にヒアリングし、光と風を取り込む住まいを一緒に描きます。</p>
-        </div>
-        <div class="service-card">
-          <h3>リノベーション</h3>
-          <p>中古物件の魅力を引き出しながら、暮らしに合わせた快適な間取りに再構築します。</p>
-        </div>
-        <div class="service-card">
-          <h3>メンテナンス</h3>
-          <p>定期点検や設備交換など、入居後も安心して暮らせる体制を整えています。</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="company" class="section">
-      <div class="section-inner company">
         <div>
-          <h2>会社情報</h2>
-          <p>横浜・湘南エリアを中心に、住まいに関する幅広いニーズに応えるプランニングを行っています。お気軽にご相談ください。</p>
+          <p class="eyebrow">About</p>
+          <h3>ぬくもりと機能美が調和する住空間</h3>
+          <p>住む人の感性やライフスタイルに寄り添ったプランニングを行い、素材選びから細部のディテールまで丁寧に仕上げます。断熱・耐震性能も確保し、長く愛される暮らしをデザインします。</p>
+          <p>横浜を中心に首都圏で多数の実績があり、自然素材や最新の住宅設備にも精通。住まいに関するご相談はお気軽にお寄せください。</p>
         </div>
-        <dl class="company-info">
+      </div>
+    </section>
+
+    <section id="company" class="section section-muted">
+      <div class="section-inner company">
+        <header>
+          <p class="eyebrow">Company</p>
+          <h3>会社情報</h3>
+          <p>地域密着で、住まいに関する幅広いニーズに対応しています。</p>
+        </header>
+        <dl>
           <div>
             <dt>会社名</dt>
             <dd>株式会社あかりハウジング</dd>
@@ -82,24 +108,25 @@
       </div>
     </section>
 
-    <section id="contact" class="section section-accent">
+    <section id="contact" class="section">
       <div class="section-inner contact">
-        <div class="contact-header">
-          <h2>お問い合わせ</h2>
-          <p>ご相談・資料請求・見学予約など、下記フォームよりお気軽にご連絡ください。</p>
-        </div>
-        <form class="contact-form">
+        <header>
+          <p class="eyebrow">Contact</p>
+          <h3>お問い合わせ</h3>
+          <p>ご相談・資料請求・見学予約など、お気軽にご連絡ください。</p>
+        </header>
+        <form>
           <label>
             お名前
-            <input type="text" name="name" placeholder="例：山田 太郎">
+            <input type="text" placeholder="例：山田 太郎">
           </label>
           <label>
             メールアドレス
-            <input type="email" name="email" placeholder="example@mail.com">
+            <input type="email" placeholder="example@mail.com">
           </label>
           <label>
             お問い合わせ内容
-            <textarea name="message" rows="4" placeholder="ご相談内容をご記入ください"></textarea>
+            <textarea rows="4" placeholder="ご相談内容をご記入ください"></textarea>
           </label>
           <button type="submit">送信する</button>
         </form>
@@ -110,5 +137,16 @@
   <footer class="footer">
     <small>© 2025 Akari Housing Inc.</small>
   </footer>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const skipButton = document.getElementById('skip-intro');
+    const hideIntro = () => {
+      if (!intro) return;
+      intro.classList.add('intro-hidden');
+    };
+    skipButton?.addEventListener('click', hideIntro);
+    setTimeout(hideIntro, 10000);
+  </script>
 </body>
 </html>
